@@ -22,23 +22,8 @@ const items = [
     icon: Home,
   },
   {
-    title: "Apply For Card",
-    url: "/dashboard/user/applyCard",
-    icon: Calendar,
-  },
-  {
-    title: "Card Details",
-    url: "/dashboard/user/cardDetails",
-    icon: Inbox,
-  },
-  {
-    title: "Upload Invoice",
-    url: "/dashboard/user/invoiceUpload",
-    icon: Search,
-  },
-  {
     title: "Make a Card Transcation",
-    url: "/dashboard/user/cardTransation",
+    url: "#",
     icon: Settings,
   },
 ];
