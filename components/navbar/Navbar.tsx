@@ -1,25 +1,22 @@
 "use client";
+
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+
 import { useSession, signIn, signOut } from "next-auth/react";
 
 const Navbar = () => {
   const { data: session } = useSession();
-  console.log(session);
   return (
     <>
       <div className="flex justify-center items-center">
-        <div>
+        <div className=" flex justify-between items-center">
           {session ? (
-            <>
-              <h1>Welcome, {session.user?.name}</h1>
-              <button onClick={() => signOut()}>Sign Out</button>
-            </>
+            <Button onClick={() => signOut()}>SignOut</Button>
           ) : (
-            <>
-              <h1>You are not signed in</h1>
-              <button onClick={() => signIn("google")}>
-                Sign In with Google
-              </button>
-            </>
+            <Link href={"/api/auth/signin"}>
+              <Button>login</Button>
+            </Link>
           )}
         </div>
       </div>
