@@ -18,6 +18,11 @@ const Navbar = () => {
               <Button>login</Button>
             </Link>
           )}
+          <div>
+            <Link href={"/dashboard"}>
+              <Button>Dashboard</Button>
+            </Link>
+          </div>
         </div>
       </div>
     </>
