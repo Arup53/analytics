@@ -28,8 +28,7 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-    --radius: 0.5rem
-  ;
+    --radius: 0.5rem;
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 240 5.9% 10%;
@@ -37,7 +36,8 @@
     --sidebar-accent: 240 4.8% 95.9%;
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%}
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
   .dark {
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
@@ -62,8 +62,7 @@
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%
-  ;
+    --chart-5: 340 75% 55%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -71,7 +70,8 @@
     --sidebar-accent: 240 3.7% 15.9%;
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%}
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
 }
 
 @layer base {
@@ -80,5 +80,29 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .button {
+    @apply bg-black border border-white/10 px-8 py-2
+     text-sm font-medium text-white hover:bg-[#0c0c0c] smooth;
+  }
+  .smooth {
+    @apply transition-all ease-in-out duration-150;
+  }
+  .input {
+    @apply outline-none border-b border-white/10 w-full py-2 pr-4
+     placeholder:text-white/20 bg-transparent hover:border-white/50 smooth;
+  }
+  .input-disabled {
+    @apply outline-none border-b border-white/10 w-full px-4 py-1 bg-[#0c0c0c];
+  }
+  .label {
+    @apply text-white text-white/70 py-6 
+              w-full text-center border-b border-white/5;
+  }
+  .filter_tab_item {
+    @apply bg-black smooth hover:bg-[#050505] text-white;
   }
 }

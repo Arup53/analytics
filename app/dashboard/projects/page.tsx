@@ -5,7 +5,7 @@ const Page = () => {
   return (
     <div className="w-[80%] h-[100vh]">
       <div className="flex justify-end my-6">
-        <Link href={"/add"}>
+        <Link href={"/dashboard/addWebsites"}>
           <Button className="">+ add website</Button>
         </Link>
       </div>
