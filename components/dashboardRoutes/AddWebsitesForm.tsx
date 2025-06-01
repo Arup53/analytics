@@ -11,17 +11,17 @@ const AddWebForm = () => {
   const addwebsite = async () => {};
 
   const checkDuplicateDomains = async () => {
-    let fetchedWebsites: any = [];
-    // fetch all websites from db
-    const websites = "use prisma for fetching";
-    if (
-      fetchedWebsites.filter((item) => item.website_name === website).length > 0
-    ) {
-      setError("this domain is added before");
-    } else {
-      setError("");
-      addwebsite();
-    }
+    // let fetchedWebsites: any = [];
+    // // fetch all websites from db
+    // const websites = "use prisma for fetching";
+    // if (
+    //   fetchedWebsites.filter((item) => item.website_name === website).length > 0
+    // ) {
+    //   setError("this domain is added before");
+    // } else {
+    //   setError("");
+    //   addwebsite();
+    // }
   };
 
   useEffect(() => {
