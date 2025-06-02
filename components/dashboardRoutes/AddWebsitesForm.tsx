@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const AddWebForm = () => {
@@ -7,6 +8,7 @@ const AddWebForm = () => {
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(1);
   const [error, setError] = useState("");
+  const router = useRouter();
 
   const addwebsite = async () => {
     if (website.trim() == "" || loading) return;
@@ -88,7 +90,26 @@ const AddWebForm = () => {
             )}
           </div>
         ) : (
-          <></>
+          <div className="w-full items-center justify-center flex flex-col space-y-10">
+            <span className="w-full lg:w-[50%]">
+              <textarea
+                className="input text-white/20 cursor-pointer"
+                disabled
+                value={`<script defer data-domain="${website}"
+                src="http://localhost:3000/tracking-script.js"></script>`}
+              />
+              <p className="text-xs text-white/20 pt-2 font-light">
+                paste this snippet in the{" "}
+                <b className="text-red-600">{"<head>"}</b> of your website
+              </p>
+            </span>
+            <button
+              className="button"
+              onClick={() => router.push(`/w/${website.trim()}`)}
+            >
+              added
+            </button>
+          </div>
         )}
       </div>
       ;
