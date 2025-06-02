@@ -8,20 +8,37 @@ const AddWebForm = () => {
   const [step, setStep] = useState(1);
   const [error, setError] = useState("");
 
-  const addwebsite = async () => {};
+  const addwebsite = async () => {
+    if (website.trim() == "" || loading) return;
+    setLoading(true);
+    const res = await fetch("/api/postWebsites", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ website_name: website }),
+    });
+    if (!res.ok) throw new Error("Failed to post");
+    const data = await res.json();
+    console.log(data);
+    setLoading(false);
+    setStep(2);
+  };
 
   const checkDuplicateDomains = async () => {
-    // let fetchedWebsites: any = [];
-    // // fetch all websites from db
-    // const websites = "use prisma for fetching";
-    // if (
-    //   fetchedWebsites.filter((item) => item.website_name === website).length > 0
-    // ) {
-    //   setError("this domain is added before");
-    // } else {
-    //   setError("");
-    //   addwebsite();
-    // }
+    let fetchedWebsites: any = [];
+    // fetch all websites from db
+    const res = await fetch("/api/getAllWebsites");
+    const websites = await res.json();
+    fetchedWebsites = websites;
+    if (
+      fetchedWebsites.filter((item) => item.website_name === website).length > 0
+    ) {
+      setError("this domain is added before");
+    } else {
+      setError("");
+      addwebsite();
+    }
   };
 
   useEffect(() => {
@@ -65,7 +82,7 @@ const AddWebForm = () => {
               )}
             </span>
             {error === "" && (
-              <button className="button" onClick={addwebsite}>
+              <button className="button" onClick={checkDuplicateDomains}>
                 {loading ? "adding..." : "add website"}
               </button>
             )}

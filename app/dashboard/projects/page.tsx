@@ -2,16 +2,17 @@
 
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Page = () => {
   const [websiteName, setWebsiteName] = useState("");
   const [response, setResponse] = useState(null);
+  const [arr, setArr] = useState([]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const res = await fetch("/api/post", {
+    const res = await fetch("/api/postWebsites", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -20,8 +21,20 @@ const Page = () => {
     });
 
     const data = await res.json();
+
     setResponse(data);
   };
+
+  // useEffect(() => {
+  //   async function fetchAll() {
+  //     const res = await fetch("/api/getAllWebsites");
+  //     const data = await res.json();
+  //     setArr(data);
+  //   }
+  //   fetchAll();
+  // }, []);
+
+  // console.log(arr);
 
   return (
     <div className="w-[80%] h-[100vh]">
