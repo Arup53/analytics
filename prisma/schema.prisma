@@ -16,23 +16,29 @@ datasource db {
 
 
 model Websites {
-  id Int @id @default(autoincrement())
-  website_name String @unique
-  user_id  String?
-  createdAt DateTime @default(now())
+  id                Int @id @default(autoincrement())
+  website_name      String @unique
+  user_id           String?
+  visits            Visits[]
+  page_views        PageViews[]
+  createdAt         DateTime @default(now())
 }
 
 model Visits {
-  id             Int      @id @default(autoincrement())
-  website_domain String 
-  source         String
-  createdAt      DateTime @default(now())
+  id              Int      @id @default(autoincrement())
+  website_name    Int
+  website_domain  String 
+  source          String
+  websites        Websites     @relation(fields: [website_name], references: [id], onDelete: Cascade)
+  createdAt       DateTime @default(now())
 }
 
 
 model PageViews {
  id             Int       @id @default(autoincrement())
+ website_name    Int
  domain         String
  page           String
+ websites        Websites     @relation(fields: [website_name], references: [id], onDelete: Cascade)
  createdAt      DateTime  @default(now())
 }

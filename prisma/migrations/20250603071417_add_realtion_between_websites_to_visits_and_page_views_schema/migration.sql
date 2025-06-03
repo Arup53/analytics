@@ -1,0 +1,5 @@
+-- AddForeignKey
+ALTER TABLE "Visits" ADD CONSTRAINT "Visits_id_fkey" FOREIGN KEY ("id") REFERENCES "Websites"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "PageViews" ADD CONSTRAINT "PageViews_id_fkey" FOREIGN KEY ("id") REFERENCES "Websites"("id") ON DELETE CASCADE ON UPDATE CASCADE;

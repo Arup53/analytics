@@ -26,6 +26,7 @@ export async function POST(req: NextResponse) {
   if (event === "session_start") {
     const insert = await prisma.visits.create({
       data: {
+        website_name: domain,
         website_domain: domain,
         source,
       },
@@ -36,6 +37,7 @@ export async function POST(req: NextResponse) {
   if (event === "pageview") {
     const insert = await prisma.pageViews.create({
       data: {
+        website_name: domain,
         domain,
         page: url,
       },

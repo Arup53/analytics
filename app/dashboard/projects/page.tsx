@@ -7,7 +7,8 @@ import { useEffect, useState } from "react";
 const Page = () => {
   const [websiteName, setWebsiteName] = useState("");
   const [response, setResponse] = useState(null);
-  const [arr, setArr] = useState([]);
+  const [websites, setWebsites] = useState([]);
+  const name = "fas";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,22 +20,26 @@ const Page = () => {
       },
       body: JSON.stringify({ website_name: websiteName }),
     });
-
+    if (!res.ok) throw new Error("Failed to fetch");
     const data = await res.json();
 
     setResponse(data);
   };
 
-  // useEffect(() => {
-  //   async function fetchAll() {
-  //     const res = await fetch("/api/getAllWebsites");
-  //     const data = await res.json();
-  //     setArr(data);
-  //   }
-  //   fetchAll();
-  // }, []);
+  useEffect(() => {
+    async function fetchAll() {
+      const res = await fetch("/api/getAllWebsites");
+      const data = await res.json();
+      setWebsites(data);
 
-  // console.log(arr);
+      const res2 = await fetch(
+        `/api/getSingleWebsiteAnalytics?website_name=${name}`
+      );
+      const data2 = await res2.json();
+      console.log(data2);
+    }
+    fetchAll();
+  }, []);
 
   return (
     <div className="w-[80%] h-[100vh]">
@@ -63,7 +68,20 @@ const Page = () => {
           )}
         </form>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 p-6 gap-10 w-full z-40 border border-black rounded-lg"></div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 p-6 gap-10 w-full z-40 border border-black rounded-lg">
+        {websites &&
+          websites?.map((website) => (
+            <Link key={website.id} href={`/w/${website?.website_name}`}>
+              <div
+                className="border border-white/5 rounded-md py-12 px-6
+             text-white bg-black w-full cursor-pointer smooth
+              hover:border-white/20 hover:bg-[#050505]"
+              >
+                <h2> {website?.website_name}</h2>
+              </div>
+            </Link>
+          ))}
+      </div>
     </div>
   );
 };
