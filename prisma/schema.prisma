@@ -21,3 +21,18 @@ model Websites {
   user_id  String?
   createdAt DateTime @default(now())
 }
+
+model Visits {
+  id             Int      @id @default(autoincrement())
+  website_domain String 
+  source         String
+  createdAt      DateTime @default(now())
+}
+
+
+model PageViews {
+ id             Int       @id @default(autoincrement())
+ domain         String
+ page           String
+ createdAt      DateTime  @default(now())
+}
