@@ -35,7 +35,7 @@ model Visits {
 
 
 model PageViews {
- id             Int       @id @default(autoincrement())
+ id              Int       @id @default(autoincrement())
  website_name    Int
  domain         String
  page           String

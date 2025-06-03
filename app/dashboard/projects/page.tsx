@@ -32,11 +32,11 @@ const Page = () => {
       const data = await res.json();
       setWebsites(data);
 
-      const res2 = await fetch(
-        `/api/getSingleWebsiteAnalytics?website_name=${name}`
-      );
-      const data2 = await res2.json();
-      console.log(data2);
+      // const res2 = await fetch(
+      //   `/api/getSingleWebsiteAnalytics?website_name=${name}`
+      // );
+      // const data2 = await res2.json();
+      // console.log(data2);
     }
     fetchAll();
   }, []);
@@ -71,7 +71,12 @@ const Page = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 p-6 gap-10 w-full z-40 border border-black rounded-lg">
         {websites &&
           websites?.map((website) => (
-            <Link key={website.id} href={`/w/${website?.website_name}`}>
+            <Link
+              key={website.id}
+              href={{
+                pathname: `/w/${website.website_name}`,
+              }}
+            >
               <div
                 className="border border-white/5 rounded-md py-12 px-6
              text-white bg-black w-full cursor-pointer smooth
