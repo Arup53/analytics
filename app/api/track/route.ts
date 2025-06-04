@@ -13,7 +13,7 @@ export async function OPTIONS(request) {
 
 export async function POST(req: NextResponse) {
   const res = await req.json();
-  const { domain, url, event, source = "none" } = res;
+  const { domain, url, event, source = "Direct" } = res;
   if (!url.includes(domain))
     return NextResponse.json(
       {
