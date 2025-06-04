@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "TSC_COMPILE_ON_ERROR=true next build",
+    "build": "TSC_COMPILE_ON_ERROR=true prisma generate next build",
     "start": "next start",
     "lint": "next lint"
   },
