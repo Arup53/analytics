@@ -1,27 +1,29 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
-export const corsHeaders = {
+const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
 };
 
-export async function OPTIONS(request) {
+export async function OPTIONS() {
   return NextResponse.json({}, { headers: corsHeaders });
 }
 
-export async function POST(req: NextResponse) {
+export async function POST(req: Request) {
   const res = await req.json();
   const { domain, url, event, source = "Direct" } = res;
-  if (!url.includes(domain))
+
+  if (!url.includes(domain)) {
     return NextResponse.json(
       {
         error:
-          "the script points to a different domain than the current url. make sure thy match",
+          "The script points to a different domain than the current URL. Make sure they match.",
       },
       { headers: corsHeaders }
     );
+  }
 
   if (event === "session_start") {
     const insert = await prisma.visits.create({
@@ -46,7 +48,7 @@ export async function POST(req: NextResponse) {
   }
 
   return NextResponse.json(
-    { message: "error in post request in track api" },
+    { message: "Error in POST request in track API" },
     { headers: corsHeaders }
   );
 }
