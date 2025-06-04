@@ -97,7 +97,7 @@ const AddWebForm = () => {
                 className="input text-white/20 cursor-pointer"
                 disabled
                 value={`<script defer data-domain="${website}"
-                src="http://localhost:3000/tracking-script.js"></script>`}
+                src="https://analytics-sandy-five.vercel.app/tracking-script.js"></script>`}
               />
               <p className="text-xs text-white/20 pt-2 font-light">
                 paste this snippet in the{" "}
