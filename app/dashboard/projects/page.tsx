@@ -4,11 +4,15 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
+type Website = {
+  id: number;
+  website_name: string;
+};
+
 const Page = () => {
   const [websiteName, setWebsiteName] = useState("");
   const [response, setResponse] = useState(null);
-  const [websites, setWebsites] = useState([]);
-  const name = "fas";
+  const [websites, setWebsites] = useState<Website[]>([]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
