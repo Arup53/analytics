@@ -26,7 +26,7 @@ model Websites {
 
 model Visits {
   id              Int      @id @default(autoincrement())
-  website_name    String
+  website_name    String   @unique
   website_domain  String 
   source          String
   websites        Websites     @relation(fields: [website_name], references: [website_name], onDelete: Cascade)
@@ -36,7 +36,7 @@ model Visits {
 
 model PageViews {
  id              Int       @id @default(autoincrement())
- website_name    String
+ website_name    String    @unique
  domain         String
  page           String
  websites        Websites     @relation(fields: [website_name], references: [website_name], onDelete: Cascade)

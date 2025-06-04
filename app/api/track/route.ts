@@ -27,8 +27,10 @@ export async function POST(req: Request) {
 
     // handle session_start
     if (event === "session_start") {
-      const insert = await prisma.visits.create({
-        data: {
+      const insert = await prisma.visits.upsert({
+        where: { website_name: domain },
+        update: {},
+        create: {
           website_name: domain,
           website_domain: domain,
           source,
