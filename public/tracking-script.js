@@ -61,6 +61,7 @@
     sendRequest(payload, options);
   }
 
+  // Function to send HTTP requests
   function sendRequest(payload, options) {
     var request = new XMLHttpRequest();
     request.open("POST", endpoint, true);
@@ -68,7 +69,6 @@
 
     request.onreadystatechange = function () {
       if (request.readyState === 4) {
-        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         options && options.callback && options.callback();
       }
     };
