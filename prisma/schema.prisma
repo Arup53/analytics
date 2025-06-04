@@ -26,19 +26,19 @@ model Websites {
 
 model Visits {
   id              Int      @id @default(autoincrement())
-  website_name    Int
+  website_name    String
   website_domain  String 
   source          String
-  websites        Websites     @relation(fields: [website_name], references: [id], onDelete: Cascade)
+  websites        Websites     @relation(fields: [website_name], references: [website_name], onDelete: Cascade)
   createdAt       DateTime @default(now())
 }
 
 
 model PageViews {
  id              Int       @id @default(autoincrement())
- website_name    Int
+ website_name    String
  domain         String
  page           String
- websites        Websites     @relation(fields: [website_name], references: [id], onDelete: Cascade)
+ websites        Websites     @relation(fields: [website_name], references: [website_name], onDelete: Cascade)
  createdAt      DateTime  @default(now())
 }
