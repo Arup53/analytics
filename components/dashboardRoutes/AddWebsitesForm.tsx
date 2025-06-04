@@ -34,7 +34,8 @@ const AddWebForm = () => {
     const websites = await res.json();
     fetchedWebsites = websites;
     if (
-      fetchedWebsites.filter((item) => item.website_name === website).length > 0
+      fetchedWebsites.filter((item: any) => item.website_name === website)
+        .length > 0
     ) {
       setError("this domain is added before");
     } else {
