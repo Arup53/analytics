@@ -7,7 +7,7 @@ export const corsHeaders = {
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
 };
 
-export async function OPTIONS() {
+async function OPTIONS(request) {
   return NextResponse.json({}, { headers: corsHeaders });
 }
 
