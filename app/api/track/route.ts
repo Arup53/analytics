@@ -32,6 +32,9 @@ export async function POST(req: Request) {
           website_name: domain,
           website_domain: domain,
           source,
+          websites: {
+            connect: { website_name: domain }, // Connect to existing website
+          },
         },
       });
       return NextResponse.json({ insert }, { headers: corsHeaders });
