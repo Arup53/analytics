@@ -39,6 +39,13 @@ export async function POST(req: Request) {
       return NextResponse.json({ insert }, { headers: corsHeaders });
     }
 
+    if (event === "session_end") {
+      return NextResponse.json(
+        { message: "sessison ended" },
+        { headers: corsHeaders }
+      );
+    }
+
     // handle pageview
     if (event === "pageview") {
       const insert = await prisma.pageViews.create({
