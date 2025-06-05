@@ -30,7 +30,7 @@ export async function POST(req: Request) {
       const insert = await prisma.visits.create({
         data: {
           website_domain: domain,
-          source,
+          source: "direct",
           websites: {
             connect: { website_name: domain }, // Connect to existing website
           },
