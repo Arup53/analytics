@@ -9,7 +9,7 @@ const Navbar = () => {
   const { data: session } = useSession();
   return (
     <>
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center z-40">
         <div className=" flex justify-between items-center">
           {session ? (
             <Button onClick={() => signOut()}>SignOut</Button>
