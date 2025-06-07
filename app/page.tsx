@@ -1,3 +1,4 @@
+import FeaturesSection from "@/components/landing/features";
 import Hero from "@/components/landing/Hero";
 import SectionBadge from "@/components/wrapper/SectionWrapper";
 
@@ -13,6 +14,9 @@ export default function Home() {
       />
       <section className="w-full">
         <Hero />
+      </section>
+      <section className="w-full">
+        <FeaturesSection />
       </section>
     </div>
   );

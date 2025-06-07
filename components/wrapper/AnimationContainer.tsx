@@ -1,24 +1,43 @@
 "use client";
+
 import { motion } from "framer-motion";
 import { type ReactNode } from "react";
+import React from "react";
 
 interface AnimationContainerProps {
   children: ReactNode;
   className?: string;
-  animation?: { opacity: number; y: number };
+  animation?: "fadeUp" | "fadeDown" | "fadeLeft" | "fadeRight" | "scaleUp";
   delay?: number;
 }
+
+const getAnimationVariants = (animation: string) => {
+  switch (animation) {
+    case "fadeUp":
+      return { opacity: 0, y: 20 };
+    case "fadeDown":
+      return { opacity: 0, y: -20 };
+    case "fadeLeft":
+      return { opacity: 0, x: -20 };
+    case "fadeRight":
+      return { opacity: 0, x: 20 };
+    case "scaleUp":
+      return { opacity: 0, scale: 0.95 };
+    default:
+      return { opacity: 0, y: 20 };
+  }
+};
 
 const AnimationContainer = ({
   children,
   className,
-  animation = { opacity: 0, y: 20 },
+  animation = "fadeUp",
   delay = 0,
 }: AnimationContainerProps) => {
   return (
     <motion.div
       className={className}
-      initial={animation}
+      initial={getAnimationVariants(animation)}
       whileInView={{
         opacity: 1,
         y: 0,
