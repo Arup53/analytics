@@ -1,6 +1,6 @@
+import Contract from "@/components/landing/Contact";
 import FeaturesSection from "@/components/landing/features";
 import Hero from "@/components/landing/Hero";
-import SectionBadge from "@/components/wrapper/SectionWrapper";
 
 export default function Home() {
   return (
@@ -17,6 +17,9 @@ export default function Home() {
       </section>
       <section className="w-full">
         <FeaturesSection />
+      </section>
+      <section className="w-full">
+        <Contract />
       </section>
     </div>
   );
