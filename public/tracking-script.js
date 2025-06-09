@@ -56,6 +56,7 @@
       event: eventName,
       url: location.href,
       domain: dataDomain,
+      user_agent: navigator.userAgent,
       source,
     };
     sendRequest(payload, options);

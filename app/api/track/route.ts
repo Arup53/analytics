@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { UAParser } from "ua-parser-js";
 
 export const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -11,12 +12,36 @@ export async function OPTIONS(request) {
   return NextResponse.json({}, { headers: corsHeaders });
 }
 
+function getDeviceType(userAgent: string) {
+  const parser = new UAParser(userAgent);
+  const device = parser.getDevice();
+  const deviceType = device.type?.toLowerCase() || "";
+
+  if (deviceType.includes("mobile")) return "MOBILE";
+  if (deviceType.includes("tablet")) return "TABLET";
+  return "DESKTOP";
+}
+
+function getOSInfo(userAgent: string): { name: string } {
+  const parser = new UAParser(userAgent);
+  const os = parser.getOS();
+  return {
+    name: os.name || "Unknown",
+  };
+}
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();
     console.log("Incoming request body:", body); // ✅ log
 
-    const { domain, url, event, source = "Direct" } = body;
+    const { domain, url, event, source = "Direct", user_agent } = body;
+
+    const deviceType = user_agent ? getDeviceType(user_agent) : "DESKTOP";
+
+    const osInfo = user_agent ? getOSInfo(user_agent) : { name: "Unknown" };
+
+    console.log("DeviceType=", deviceType, "OS=", osInfo);
 
     if (!url.includes(domain)) {
       return NextResponse.json(
