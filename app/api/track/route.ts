@@ -1,6 +1,82 @@
 import prisma from "@/lib/prisma";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { UAParser } from "ua-parser-js";
+
+const countryNames: Record<string, string> = {
+  US: "United States",
+  CA: "Canada",
+  MX: "Mexico",
+
+  // South America
+  BR: "Brazil",
+  AR: "Argentina",
+  CO: "Colombia",
+  CL: "Chile",
+  PE: "Peru",
+
+  // Europe
+  GB: "United Kingdom",
+  DE: "Germany",
+  FR: "France",
+  IT: "Italy",
+  ES: "Spain",
+  NL: "Netherlands",
+  SE: "Sweden",
+  NO: "Norway",
+  FI: "Finland",
+  DK: "Denmark",
+  PL: "Poland",
+  RU: "Russia",
+  TR: "Turkey",
+  PT: "Portugal",
+  CH: "Switzerland",
+  BE: "Belgium",
+  AT: "Austria",
+  IE: "Ireland",
+  CZ: "Czech Republic",
+  HU: "Hungary",
+  UA: "Ukraine",
+  GR: "Greece",
+
+  // Asia
+  IN: "India",
+  CN: "China",
+  JP: "Japan",
+  KR: "South Korea",
+  SG: "Singapore",
+  MY: "Malaysia",
+  ID: "Indonesia",
+  TH: "Thailand",
+  PH: "Philippines",
+  VN: "Vietnam",
+  SA: "Saudi Arabia",
+  AE: "United Arab Emirates",
+  IL: "Israel",
+  PK: "Pakistan",
+  BD: "Bangladesh",
+
+  // Africa
+  ZA: "South Africa",
+  NG: "Nigeria",
+  EG: "Egypt",
+  KE: "Kenya",
+  MA: "Morocco",
+  GH: "Ghana",
+  DZ: "Algeria",
+  ET: "Ethiopia",
+
+  // Oceania
+  AU: "Australia",
+  NZ: "New Zealand",
+  FJ: "Fiji",
+
+  // Central America & Caribbean
+  CU: "Cuba",
+  DO: "Dominican Republic",
+  JM: "Jamaica",
+  PA: "Panama",
+  CR: "Costa Rica",
+};
 
 export const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -30,6 +106,48 @@ function getOSInfo(userAgent: string): { name: string } {
   };
 }
 
+/**
+ * Get country information from various edge providers
+ * This mimics how Vercel and other platforms determine visitor location
+ */
+function getCountryInfo(req: NextRequest): { code: string; name: string } {
+  // Check various headers from different CDNs and edge providers
+  // Cloudflare
+  const cfCountry = req.headers.get("cf-ipcountry");
+
+  // Vercel
+  const vercelCountry = req.headers.get("x-vercel-ip-country");
+
+  // Fastly
+  const fastlyCountry = req.headers.get("Fastly-Geo-Country");
+
+  // Akamai
+  const akamaiCountry = req.headers
+    .get("X-Akamai-Edgescape")
+    ?.split(",")
+    .find((item) => item.trim().startsWith("country_code="))
+    ?.split("=")[1];
+
+  // AWS CloudFront
+  const cloudfrontCountry = req.headers.get("CloudFront-Viewer-Country");
+
+  // Use the first available country code, or default to "XX" for unknown
+  const countryCode =
+    cfCountry ||
+    vercelCountry ||
+    fastlyCountry ||
+    akamaiCountry ||
+    cloudfrontCountry ||
+    "XX";
+
+  // Look up the country name from our mapping, or use a generic name if not found
+  const countryName =
+    countryNames[countryCode] ||
+    (countryCode === "XX" ? "Unknown" : `Country (${countryCode})`);
+
+  return { code: countryCode, name: countryName };
+}
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -41,7 +159,17 @@ export async function POST(req: Request) {
 
     const osInfo = user_agent ? getOSInfo(user_agent) : { name: "Unknown" };
 
-    console.log("DeviceType=", deviceType, "OS=", osInfo);
+    // Get country information using our enhanced method
+    const { code: countryCode, name: countryName } = getCountryInfo(req);
+
+    console.log(
+      "DeviceType=",
+      deviceType,
+      "OS=",
+      osInfo,
+      "Country",
+      countryName
+    );
 
     if (!url.includes(domain)) {
       return NextResponse.json(
