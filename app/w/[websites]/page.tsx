@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import MyAreaChart from "@/components/chart/AnalyticsGraph";
 
 const Page = () => {
   // --- have to check if a user is present fron next auth hook
@@ -80,6 +81,7 @@ const Page = () => {
                 <TabsTrigger value="custom Event">Custom Events</TabsTrigger>
               </TabsList>
               <TabsContent value="general" className="w-full">
+                <MyAreaChart />
                 <div className="w-full grid grid-cols-1 md:grid-cols-2 px-4 gap-6">
                   <div className="bg-black border-white/5 border text-white text-center">
                     <p className="text-white/70 font-medium py-8 w-full text-center border-b border-white/5">
