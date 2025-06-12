@@ -27,8 +27,18 @@ const Page = () => {
     setLoading(false);
     const { page_views, visits } = data || [];
     setPageviews(page_views);
-    setTotalVisits(visits);
+    setTotalVisits(visits.length);
   };
+
+  function getPath(urlString) {
+    try {
+      const url = new URL(urlString);
+      return url.pathname;
+    } catch (error) {
+      console.error("Invalid URL", error);
+      return null;
+    }
+  }
 
   console.log(pageviews, totalVisits);
 
@@ -46,7 +56,7 @@ const Page = () => {
   }
 
   return (
-    <div className="bg-black text-white min-h-screen w-full items-center justify-center flex flex-col">
+    <div className="bg-[#0D0D0D] text-white min-h-screen w-full items-center justify-center flex flex-col">
       {pageviews?.length == 0 && !loading ? (
         <div className="w-full items-center justify-center flex flex-col space-y-6 z-40 relative min-h-screen px-4">
           <div className="z-40 w-full lg:w-2/3 bg-black border border-white/5 py-12 px-8 items-center justify-center flex flex-col text-white space-y-4 relative">
@@ -76,7 +86,7 @@ const Page = () => {
                       Total Visits
                     </p>
                     <p className="py-12 text-3xl lg:text-4xl font-bold bg-[#050505]">
-                      {1}
+                      {totalVisits}
                     </p>
                   </div>
 
@@ -85,15 +95,42 @@ const Page = () => {
                       Page Views
                     </p>
                     <p className="py-12 text-3xl lg:text-4xl font-bold bg-[#050505]">
-                      {1}
+                      {pageviews?.length}
                     </p>
                   </div>
                 </div>
-                <div className="items-center justify-center grid grid-cols-1 bg-black lg:grid-cols-2 mt-12 w-full border-y border-white/5">
+                <div className="items-center justify-center grid grid-cols-1 py-4 bg-black lg:grid-cols-2 mt-12 w-full border-y border-white/5">
                   {/* top pages */}
-                  <div className="flex flex-col bg-black z-40 h-full w-full">
-                    <h1 className="label">Top pages</h1>
-                    <p>Use map method to show all pages visits</p>
+                  <div className="flex flex-col items-center bg-black z-40 h-full w-full">
+                    <h1 className="label">Pages</h1>
+                    {pageviews &&
+                      Array.from(
+                        new Map(
+                          pageviews.map((page) => {
+                            const pathname = getPath(page.page); // e.g. "/" or "/home"
+                            return [pathname, { id: page.id, pathname }];
+                          })
+                        ).values()
+                      ).map(({ id, pathname }) => <p key={id}>{pathname}</p>)}
+                  </div>
+
+                  {/* top pages views */}
+                  <div className="flex flex-col items-center bg-black z-40 h-full w-full">
+                    <h1 className="label">Page Views</h1>
+                    {pageviews &&
+                      (() => {
+                        // Step 1: Count occurrences of each pathname
+                        const pathCounts = pageviews.reduce((acc, page) => {
+                          const pathname = getPath(page.page);
+                          acc[pathname] = (acc[pathname] || 0) + 1;
+                          return acc;
+                        }, {});
+
+                        // Step 2: Convert to array and render
+                        return Object.entries(pathCounts).map(
+                          ([pathname, count]) => <p key={pathname}>{count}</p>
+                        );
+                      })()}
                   </div>
                 </div>
               </TabsContent>
