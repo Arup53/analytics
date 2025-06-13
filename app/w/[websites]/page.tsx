@@ -13,6 +13,7 @@ const Page = () => {
   const [analyticsData, setAnalyticsData] = useState([]);
   const [pageviews, setPageviews] = useState([]);
   const [totalVisits, setTotalVisits] = useState([]);
+  const [visits, setVisits] = useState([]);
 
   useEffect(() => {
     fetchAnalytics();
@@ -29,6 +30,7 @@ const Page = () => {
     const { page_views, visits } = data || [];
     setPageviews(page_views);
     setTotalVisits(visits.length);
+    setVisits(visits);
   };
 
   function getPath(urlString) {
@@ -81,7 +83,7 @@ const Page = () => {
                 <TabsTrigger value="custom Event">Custom Events</TabsTrigger>
               </TabsList>
               <TabsContent value="general" className="w-full">
-                <MyAreaChart />
+                <MyAreaChart visits={visits} />
                 <div className="w-full grid grid-cols-1 md:grid-cols-2 px-4 gap-6">
                   <div className="bg-black border-white/5 border text-white text-center">
                     <p className="text-white/70 font-medium py-8 w-full text-center border-b border-white/5">

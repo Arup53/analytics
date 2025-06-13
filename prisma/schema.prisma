@@ -37,8 +37,8 @@ model Visits {
 model PageViews {
  id              Int       @id @default(autoincrement())
  website_name    String    
- domain         String
- page           String
+ domain          String
+ page            String
  websites        Websites     @relation(fields: [website_name], references: [website_name], onDelete: Cascade)
- createdAt      DateTime  @default(now())
+ createdAt       DateTime  @default(now())
 }
