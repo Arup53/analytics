@@ -190,7 +190,7 @@ export async function POST(req: Request) {
         },
       });
 
-      const update = await prisma.deviceAnalytics.upsert({
+      const updateDevice = await prisma.deviceAnalytics.upsert({
         where: {
           website_name: domain,
           deviceType,
@@ -202,7 +202,22 @@ export async function POST(req: Request) {
         },
       });
 
-      return NextResponse.json({ insert, update }, { headers: corsHeaders });
+      const updateOsInfo = await prisma.osAnalyticsInfo.upsert({
+        where: {
+          website_name: domain,
+          os: osInfo.name,
+        },
+        update: { visitor: { increment: 1 } },
+        create: {
+          website_name: domain,
+          os: osInfo.name,
+        },
+      });
+
+      return NextResponse.json(
+        { updateDevice, updateOsInfo },
+        { headers: corsHeaders }
+      );
     }
 
     if (event === "session_end") {
