@@ -20,15 +20,24 @@ enum DeviceType {
   TABLET
 }
 
+model User {
+  id       String     @id @default(cuid())
+  name     String?
+  email    String?    @unique
+  image    String?
+  websites Websites[]
+}
+
 model Websites {
   id               Int               @id @default(autoincrement())
   website_name     String            @unique
-  user_id          String?
+  userId           String?
   visits           Visits[]
   page_views       PageViews[]
   device_analytics DeviceAnalytics[]
   createdAt        DateTime          @default(now())
   OsAnalyticsInfo  OsAnalyticsInfo?
+  user             User?             @relation(fields: [userId], references: [id])
 }
 
 model Visits {
