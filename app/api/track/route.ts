@@ -189,7 +189,20 @@ export async function POST(req: Request) {
           },
         },
       });
-      return NextResponse.json({ insert }, { headers: corsHeaders });
+
+      const update = await prisma.deviceAnalytics.upsert({
+        where: {
+          website_name: domain,
+          deviceType,
+        },
+        update: { visitor: { increment: 1 } },
+        create: {
+          website_name: domain,
+          deviceType: deviceType,
+        },
+      });
+
+      return NextResponse.json({ insert, update }, { headers: corsHeaders });
     }
 
     if (event === "session_end") {

@@ -14,31 +14,48 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum DeviceType {
+  DESKTOP
+  MOBILE
+  TABLET
+}
 
 model Websites {
-  id                Int @id @default(autoincrement())
-  website_name      String @unique
-  user_id           String?
-  visits            Visits[]
-  page_views        PageViews[]
-  createdAt         DateTime @default(now())
+  id               Int               @id @default(autoincrement())
+  website_name     String            @unique
+  user_id          String?
+  visits           Visits[]
+  page_views       PageViews[]
+  device_analytics DeviceAnalytics[]
+  createdAt        DateTime          @default(now())
+  OsAnalyticsInfo  OsAnalyticsInfo?
 }
 
 model Visits {
-  id              Int      @id @default(autoincrement())
-  website_name    String   
-  website_domain  String 
-  source          String
-  websites        Websites     @relation(fields: [website_name], references: [website_name], onDelete: Cascade)
-  createdAt       DateTime @default(now())
+  id             Int      @id @default(autoincrement())
+  website_name   String
+  website_domain String
+  source         String
+  websites       Websites @relation(fields: [website_name], references: [website_name], onDelete: Cascade)
+  createdAt      DateTime @default(now())
 }
 
-
 model PageViews {
- id              Int       @id @default(autoincrement())
- website_name    String    
- domain          String
- page            String
- websites        Websites     @relation(fields: [website_name], references: [website_name], onDelete: Cascade)
- createdAt       DateTime  @default(now())
+  id           Int      @id @default(autoincrement())
+  website_name String
+  domain       String
+  page         String
+  websites     Websites @relation(fields: [website_name], references: [website_name], onDelete: Cascade)
+  createdAt    DateTime @default(now())
+}
+
+model DeviceAnalytics {
+  id           Int    @id @default(autoincrement())
+  website_name String @unique
+
+  deviceType DeviceType @unique
+  visitor    Int        @default(0)
+
+  websites  Websites @relation(fields: [website_name], references: [website_name], onDelete: Cascade)
+  createdAt DateTime @default(now())
 }
