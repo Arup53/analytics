@@ -103,38 +103,88 @@ const Page = () => {
                     </p>
                   </div>
                 </div>
-                <div className="items-center justify-center grid grid-cols-1 py-4 bg-black lg:grid-cols-2 mt-12 w-full border-y border-white/5">
-                  {/* top pages */}
-                  <div className="flex flex-col items-center bg-black z-40 h-full w-full">
-                    <h1 className="label">Pages</h1>
-                    {pageviews &&
-                      Array.from(
-                        new Map(
-                          pageviews.map((page) => {
-                            const pathname = getPath(page.page); // e.g. "/" or "/home"
-                            return [pathname, { id: page.id, pathname }];
-                          })
-                        ).values()
-                      ).map(({ id, pathname }) => <p key={id}>{pathname}</p>)}
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 my-4 mx-4">
+                  {/* 1st column */}
+                  <div>
+                    <div>
+                      <div className=" rounded-lg border border-gray-700 overflow-hidden">
+                        {/* Header */}
+                        <div className=" flex items-center justify-between p-4 border-b border-gray-700">
+                          <div className="flex space-x-1">Page</div>
+                          <div className="text-gray-400 text-sm font-medium">
+                            VISITORS
+                          </div>
+                        </div>
+
+                        {/* Content Area */}
+                        <div className="p-6 ">
+                          <div className="bg-gray-900 flex items-center justify-between mb-6 p-2 rounded-md">
+                            <div className="text-gray-400 text-sm">
+                              {pageviews &&
+                                Array.from(
+                                  new Map(
+                                    pageviews.map((page) => {
+                                      const pathname = getPath(page.page); // e.g. "/" or "/home"
+                                      return [
+                                        pathname,
+                                        { id: page.id, pathname },
+                                      ];
+                                    })
+                                  ).values()
+                                ).map(({ id, pathname }) => (
+                                  <p key={id}>{pathname}</p>
+                                ))}
+                            </div>
+                            <div className="text-white text-xl font-semibold">
+                              {pageviews &&
+                                (() => {
+                                  // Step 1: Count occurrences of each pathname
+                                  const pathCounts = pageviews.reduce(
+                                    (acc, page) => {
+                                      const pathname = getPath(page.page);
+                                      acc[pathname] = (acc[pathname] || 0) + 1;
+                                      return acc;
+                                    },
+                                    {}
+                                  );
+
+                                  // Step 2: Convert to array and render
+                                  return Object.entries(pathCounts).map(
+                                    ([pathname, count]) => (
+                                      <p key={pathname}>{count}</p>
+                                    )
+                                  );
+                                })()}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
+                  {/* 2nd column */}
+                  <div>
+                    <div>
+                      <div className=" rounded-lg border border-gray-700 overflow-hidden">
+                        {/* Header */}
+                        <div className=" flex items-center justify-between p-4 border-b border-gray-700">
+                          <div className="flex space-x-1">Devices</div>
+                          <div className="text-gray-400 text-sm font-medium">
+                            VISITORS
+                          </div>
+                        </div>
 
-                  {/* top pages views */}
-                  <div className="flex flex-col items-center bg-black z-40 h-full w-full">
-                    <h1 className="label">Page Views</h1>
-                    {pageviews &&
-                      (() => {
-                        // Step 1: Count occurrences of each pathname
-                        const pathCounts = pageviews.reduce((acc, page) => {
-                          const pathname = getPath(page.page);
-                          acc[pathname] = (acc[pathname] || 0) + 1;
-                          return acc;
-                        }, {});
-
-                        // Step 2: Convert to array and render
-                        return Object.entries(pathCounts).map(
-                          ([pathname, count]) => <p key={pathname}>{count}</p>
-                        );
-                      })()}
+                        {/* Content Area */}
+                        <div className="p-6 ">
+                          <div className="bg-gray-900 flex items-center justify-between mb-6 p-2 rounded-md">
+                            <div className="text-gray-400 text-sm">/</div>
+                            <div className="text-white text-xl font-semibold">
+                              1
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </TabsContent>
