@@ -59,3 +59,14 @@ model DeviceAnalytics {
   websites  Websites @relation(fields: [website_name], references: [website_name], onDelete: Cascade)
   createdAt DateTime @default(now())
 }
+
+model OsAnalyticsInfo {
+  id           Int    @id @default(autoincrement())
+  website_name String @unique
+
+  os      String @unique
+  visitor Int    @default(0)
+
+  websites  Websites @relation(fields: [website_name], references: [website_name], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
