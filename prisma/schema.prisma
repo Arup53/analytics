@@ -38,6 +38,7 @@ model Websites {
   createdAt        DateTime          @default(now())
   OsAnalyticsInfo  OsAnalyticsInfo?
   user             User?             @relation(fields: [userId], references: [id])
+  Location         Location?
 }
 
 model Visits {
@@ -74,6 +75,17 @@ model OsAnalyticsInfo {
   website_name String @unique
 
   os      String @unique
+  visitor Int    @default(0)
+
+  websites  Websites @relation(fields: [website_name], references: [website_name], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+model Location {
+  id           Int    @id @default(autoincrement())
+  website_name String @unique
+
+  country String @unique
   visitor Int    @default(0)
 
   websites  Websites @relation(fields: [website_name], references: [website_name], onDelete: Cascade)
