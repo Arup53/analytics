@@ -214,8 +214,20 @@ export async function POST(req: Request) {
         },
       });
 
+      const locationCount = await prisma.location.upsert({
+        where: {
+          website_name: domain,
+          country: countryName,
+        },
+        update: { visitor: { increment: 1 } },
+        create: {
+          website_name: domain,
+          country: countryName,
+        },
+      });
+
       return NextResponse.json(
-        { updateDevice, updateOsInfo },
+        { updateDevice, updateOsInfo, locationCount },
         { headers: corsHeaders }
       );
     }
