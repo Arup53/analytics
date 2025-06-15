@@ -1,5 +1,6 @@
 "use client";
 
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -9,6 +10,7 @@ const AddWebForm = () => {
   const [step, setStep] = useState(1);
   const [error, setError] = useState("");
   const router = useRouter();
+  const { data: session } = useSession();
 
   const addwebsite = async () => {
     if (website.trim() == "" || loading) return;
@@ -18,7 +20,7 @@ const AddWebForm = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ website_name: website }),
+      body: JSON.stringify({ website_name: website, userId: session?.user.id }),
     });
     if (!res.ok) throw new Error("Failed to post");
     const data = await res.json();
@@ -58,6 +60,8 @@ const AddWebForm = () => {
       setError("");
     }
   }, [website]);
+
+  console.log(session?.user.id);
 
   return (
     <div className="w-full min-h-screen bg-black items-center justify-center flex flex-col">
