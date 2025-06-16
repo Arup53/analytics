@@ -1,5 +1,8 @@
 "use client";
 
+import Projects from "@/components/dashboardRoutes/projectsRouteComponents/Projects";
+import AddTest from "@/components/test/test";
+import TestArr from "@/components/test/testArr";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -13,6 +16,7 @@ const Page = () => {
   const [websiteName, setWebsiteName] = useState("");
   const [response, setResponse] = useState(null);
   const [websites, setWebsites] = useState<Website[]>([]);
+  const [testArr, setTestArr] = useState([]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -72,25 +76,10 @@ const Page = () => {
           )}
         </form>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 p-6 gap-10 w-full z-40 border border-black rounded-lg">
-        {websites &&
-          websites?.map((website) => (
-            <Link
-              key={website.id}
-              href={{
-                pathname: `/w/${website.website_name}`,
-              }}
-            >
-              <div
-                className="border border-white/5 rounded-md py-12 px-6
-             text-white bg-black w-full cursor-pointer smooth
-              hover:border-white/20 hover:bg-[#050505]"
-              >
-                <h2> {website?.website_name}</h2>
-              </div>
-            </Link>
-          ))}
+      <div className="0 w-full z-40 border border-black rounded-lg">
+        <Projects websites={websites} />
       </div>
+      {/* test */}
     </div>
   );
 };
