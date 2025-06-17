@@ -80,9 +80,9 @@ const CreateProject = ({ handleAddWebsite }) => {
     <Dialog open={open} onOpenChange={setOpen}>
       <form className="w-full">
         <div className="w-[100%] flex items-center justify-between ">
-          <h3 className="text-white">Your Projects</h3>
+          <h3 className="text-white text-sm">Your Projects</h3>
           <DialogTrigger asChild>
-            <Button className="text-base">+ Create Project</Button>
+            <Button className="text-sm">+ Create Project</Button>
           </DialogTrigger>
         </div>
 

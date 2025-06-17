@@ -10,7 +10,7 @@ export default function Layout({
     <div>
       <SidebarProvider>
         <UserDashboard />
-        <main className="bg-neutral-900 flex justify-center items-center w-full border border-neutral-600 rounded-sm my-2">
+        <main className="bg-zinc-900 flex justify-center items-center w-full border border-neutral-600 rounded-sm my-2">
           {children}
         </main>
       </SidebarProvider>
