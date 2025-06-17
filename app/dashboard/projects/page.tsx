@@ -1,5 +1,6 @@
 "use client";
 
+import CreateProject from "@/components/dashboardRoutes/projectsRouteComponents/CreateProject";
 import Projects from "@/components/dashboardRoutes/projectsRouteComponents/Projects";
 import AddTest from "@/components/test/test";
 import TestArr from "@/components/test/testArr";
@@ -56,6 +57,10 @@ const Page = () => {
           <Button className="">+ add website</Button>
         </Link>
       </div>
+      <div className="flex justify-end my-6">
+        <CreateProject />
+      </div>
+
       <div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
