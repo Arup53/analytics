@@ -35,17 +35,17 @@ const Page = () => {
   }, []);
 
   return (
-    <div className="w-[80%] h-[100vh]">
-      <div className="flex justify-end my-6">
+    <div className="w-full h-[100vh]">
+      {/* <div className="flex justify-end my-6">
         <Link href={"/dashboard/addWebsites"}>
           <Button className="">+ add website</Button>
         </Link>
-      </div>
-      <div className="flex justify-end my-6">
+      </div> */}
+      <div className="flex justify-end px-6 py-3 border-b mb-12 border-neutral-600 rounded-sm">
         <CreateProject handleAddWebsite={(value) => setWebsites(value)} />
       </div>
 
-      <div className="0 w-full z-40 border border-black rounded-lg">
+      <div className=" w-full z-40 px-10 border-none rounded-lg">
         <Projects websites={websites} />
       </div>
       {/* test */}

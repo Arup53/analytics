@@ -78,10 +78,14 @@ const CreateProject = ({ handleAddWebsite }) => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <form>
-        <DialogTrigger asChild>
-          <Button className="px-4 py-2 text-xs">+ Create Project</Button>
-        </DialogTrigger>
+      <form className="w-full">
+        <div className="w-[100%] flex items-center justify-between ">
+          <h3 className="text-white">Your Projects</h3>
+          <DialogTrigger asChild>
+            <Button className="text-base">+ Create Project</Button>
+          </DialogTrigger>
+        </div>
+
         <DialogContent className="bg-[#1e1e1e] sm:max-w-[425px] border border-gray-700 text-[#7a7a7a]">
           <DialogHeader>
             <DialogTitle>Create Project</DialogTitle>

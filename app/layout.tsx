@@ -18,7 +18,6 @@ export default function RootLayout({
     <html lang="en">
       <body className={`antialiased bg-black `}>
         <Providers>
-          <Navbar />
           {children}
           <Footer />
         </Providers>

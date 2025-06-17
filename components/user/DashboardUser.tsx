@@ -30,15 +30,14 @@ const items = [
 
 const UserDashboard = () => {
   return (
-    <Sidebar collapsible="icon">
-      <SidebarHeader>
+    <Sidebar className="border-black " collapsible="icon">
+      <SidebarHeader className="bg-black text-white ">
         <SidebarTrigger />
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className="bg-black ">
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="text-white">
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
