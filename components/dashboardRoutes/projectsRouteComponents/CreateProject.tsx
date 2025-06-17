@@ -11,42 +11,109 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useSession } from "next-auth/react";
+import { useState } from "react";
 
-const CreateProject = () => {
+const CreateProject = ({ handleAddWebsite }) => {
+  const [open, setOpen] = useState(false);
+  const [project, setProject] = useState("");
+  const { data: session } = useSession();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false); // you mentioned `loading` in `addwebsite`
+
+  const addwebsite = async () => {
+    if (project.trim() === "" || loading) return;
+
+    setLoading(true);
+    try {
+      const res = await fetch("/api/postWebsites", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          website_name: project,
+          userId: session?.user.id,
+        }),
+      });
+
+      if (!res.ok) throw new Error("Failed to post");
+
+      const data = await res.json();
+      console.log(data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const checkDuplicateDomains = async (e: React.FormEvent) => {
+    e.preventDefault(); // prevent form reload
+    setError("");
+    console.log("clicked");
+    try {
+      const res = await fetch("/api/getAllWebsites");
+      const websites = await res.json();
+
+      const isDuplicate = websites.some(
+        (item: any) => item.website_name === project
+      );
+
+      if (isDuplicate) {
+        setError("This domain is added before");
+      } else {
+        const post = await addwebsite();
+
+        const res = await fetch("/api/getAllWebsites");
+        const data = await res.json();
+        handleAddWebsite(data);
+        setOpen(false); //
+      }
+    } catch (err) {
+      console.error("Error checking domain:", err);
+      setError("Something went wrong");
+    }
+  };
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <form>
         <DialogTrigger asChild>
           <Button className="px-4 py-2 text-xs">+ Create Project</Button>
         </DialogTrigger>
         <DialogContent className="bg-[#1e1e1e] sm:max-w-[425px] border border-gray-700 text-[#7a7a7a]">
           <DialogHeader>
-            <DialogTitle>Edit profile</DialogTitle>
+            <DialogTitle>Create Project</DialogTitle>
             <DialogDescription>
-              Make changes to your profile here. Click save when you&apos;re
-              done.
+              Add your project's domain name and save.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4">
             <div className="grid gap-3">
-              <Label htmlFor="name-1">Name</Label>
+              <Label htmlFor="domain">Domain Name</Label>
               <Input
-                id="name-1"
-                name="name"
-                defaultValue="Pedro Duarte"
+                id="domain"
+                value={project}
+                onChange={(e) =>
+                  setProject(e.target.value.trim().toLowerCase())
+                }
                 className="border-gray-600"
               />
-            </div>
-            <div className="grid gap-3">
-              <Label htmlFor="username-1">Username</Label>
-              <Input id="username-1" name="username" defaultValue="@peduarte" />
+              {error && <p className="text-red-500 text-sm">{error}</p>}
             </div>
           </div>
           <DialogFooter>
             <DialogClose asChild>
               <Button variant="outline">Cancel</Button>
             </DialogClose>
-            <Button type="submit">Save changes</Button>
+            <Button
+              type="submit"
+              disabled={loading}
+              onClick={checkDuplicateDomains}
+            >
+              {loading ? "Saving..." : "Save changes"}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </form>

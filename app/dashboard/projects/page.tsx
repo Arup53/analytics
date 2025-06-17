@@ -19,22 +19,6 @@ const Page = () => {
   const [websites, setWebsites] = useState<Website[]>([]);
   const [testArr, setTestArr] = useState([]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const res = await fetch("/api/postWebsites", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ website_name: websiteName }),
-    });
-    if (!res.ok) throw new Error("Failed to fetch");
-    const data = await res.json();
-
-    setResponse(data);
-  };
-
   useEffect(() => {
     async function fetchAll() {
       const res = await fetch("/api/getAllWebsites");
@@ -58,29 +42,9 @@ const Page = () => {
         </Link>
       </div>
       <div className="flex justify-end my-6">
-        <CreateProject />
+        <CreateProject handleAddWebsite={(value) => setWebsites(value)} />
       </div>
 
-      <div>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            type="text"
-            placeholder="Enter website name"
-            value={websiteName}
-            onChange={(e) => setWebsiteName(e.target.value)}
-            className="border p-2"
-          />
-          <button type="submit" className="bg-blue-500 text-white px-4 py-2">
-            Submit
-          </button>
-          {response && (
-            <div className="mt-4">
-              <p>Created Website:</p>
-              <pre>{JSON.stringify(response, null, 2)}</pre>
-            </div>
-          )}
-        </form>
-      </div>
       <div className="0 w-full z-40 border border-black rounded-lg">
         <Projects websites={websites} />
       </div>
