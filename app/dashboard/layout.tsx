@@ -1,4 +1,4 @@
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarFooter, SidebarProvider } from "@/components/ui/sidebar";
 import UserDashboard from "@/components/user/DashboardUser";
 
 export default function Layout({

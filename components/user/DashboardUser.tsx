@@ -1,3 +1,4 @@
+"use client";
 import {
   Sidebar,
   SidebarContent,
@@ -13,6 +14,8 @@ import {
 } from "@/components/ui/sidebar";
 import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
 import Link from "next/link";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { useSession } from "next-auth/react";
 
 // Menu items.
 const items = [
@@ -29,6 +32,8 @@ const items = [
 ];
 
 const UserDashboard = () => {
+  const { data: session } = useSession();
+
   return (
     <Sidebar className="border-black " collapsible="icon">
       <SidebarHeader className="bg-black text-white ">
@@ -52,6 +57,23 @@ const UserDashboard = () => {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <hr className="border-neutral-700" />
+      <SidebarFooter className="bg-black flex flex-col md:flex-row gap-3 p-6">
+        <Avatar>
+          <AvatarImage src={`${session?.user?.image}`} alt="@shadcn" />
+          <AvatarFallback>Loading...</AvatarFallback>
+        </Avatar>
+        <>
+          {session && (
+            <div className="flex flex-col text-sm text-white">
+              <span className="font-medium truncate w-32">
+                {session?.user?.name}
+              </span>
+              <span className="truncate w-32">{session?.user?.email}</span>
+            </div>
+          )}
+        </>
+      </SidebarFooter>
     </Sidebar>
   );
 };
