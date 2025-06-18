@@ -15,7 +15,7 @@ const Projects = ({ websites }) => {
           <Link
             key={website.id}
             href={{
-              pathname: `/w/${website.website_name}`,
+              pathname: `/dashboard/w/${website.website_name}`,
             }}
           >
             <div
