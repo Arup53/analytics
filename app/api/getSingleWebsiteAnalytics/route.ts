@@ -18,6 +18,8 @@ export async function GET(req: Request) {
     include: {
       visits: true,
       page_views: true,
+      device_analytics: true,
+      OsAnalyticsInfo: true,
     },
   });
 

@@ -22,6 +22,7 @@ const Page = () => {
   const [pageviews, setPageviews] = useState([]);
   const [totalVisits, setTotalVisits] = useState([]);
   const [visits, setVisits] = useState([]);
+  const [deviceCountArr, setDeviceCountArr] = useState([]);
 
   const [scriptHtml, setScriptHtml] = useState<string | null>(null);
   const [reactScriptHtml, setReactScriptHtml] = useState<string | null>(null);
@@ -37,8 +38,12 @@ const Page = () => {
     );
 
     const data = await res.json();
+
     setLoading(false);
-    const { page_views, visits } = data || [];
+    const { page_views, visits, device_analytics, OsAnalyticsInfo } =
+      data || [];
+    console.log(device_analytics);
+    setDeviceCountArr(device_analytics);
     setPageviews(page_views);
     setTotalVisits(visits.length);
     setVisits(visits);
@@ -78,7 +83,6 @@ const Page = () => {
       await navigator.clipboard.writeText(script);
       alert(successMessage);
     } catch (error) {
-      console.error(error);
       alert("Failed to copy to clipboard");
     }
   };
@@ -231,9 +235,17 @@ const Page = () => {
                         {/* Content Area */}
                         <div className="p-6 ">
                           <div className="bg-gray-900 flex items-center justify-between mb-6 p-2 rounded-md">
-                            <div className="text-gray-400 text-sm">/</div>
+                            <div className="text-gray-400 text-sm grid grid-cols-1 gap-2">
+                              {deviceCountArr &&
+                                deviceCountArr.map((data) => (
+                                  <p key={data.id}>{data.deviceType}</p>
+                                ))}
+                            </div>
                             <div className="text-white text-xl font-semibold">
-                              1
+                              {deviceCountArr &&
+                                deviceCountArr.map((data) => (
+                                  <p key={data.id}>{data.visitor}</p>
+                                ))}
                             </div>
                           </div>
                         </div>
