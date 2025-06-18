@@ -24,6 +24,7 @@ const Page = () => {
   const [visits, setVisits] = useState([]);
   const [deviceCountArr, setDeviceCountArr] = useState([]);
   const [osAnalyticsArr, setOsAnalyticsArr] = useState([]);
+  const [locationArr, setLocationArr] = useState([]);
 
   const [scriptHtml, setScriptHtml] = useState<string | null>(null);
   const [reactScriptHtml, setReactScriptHtml] = useState<string | null>(null);
@@ -41,10 +42,12 @@ const Page = () => {
     const data = await res.json();
     console.log(data);
     setLoading(false);
-    const { page_views, visits, device_analytics, OsAnalyticsInfo } =
+    const { page_views, visits, device_analytics, OsAnalyticsInfo, Location } =
       data || [];
     console.log(OsAnalyticsInfo);
     setDeviceCountArr(device_analytics);
+    setOsAnalyticsArr(OsAnalyticsInfo);
+    setLocationArr(Location);
     setPageviews(page_views);
     setTotalVisits(visits.length);
     setVisits(visits);
@@ -255,6 +258,72 @@ const Page = () => {
                   </div>
 
                   {/* 3rd row */}
+
+                  <div>
+                    <div>
+                      <div className=" rounded-lg border border-gray-700 overflow-hidden">
+                        {/* Header */}
+                        <div className=" flex items-center justify-between p-4 border-b border-gray-700">
+                          <div className="flex space-x-1">OS</div>
+                          <div className="text-gray-400 text-sm font-medium">
+                            VISITORS
+                          </div>
+                        </div>
+
+                        {/* Content Area */}
+                        <div className="p-6 ">
+                          <div className="bg-gray-900 flex items-center justify-between mb-6 p-2 rounded-md">
+                            <div className="text-gray-400 text-sm grid grid-cols-1 gap-2">
+                              {osAnalyticsArr &&
+                                osAnalyticsArr.map((data) => (
+                                  <p key={data.id}>{data.os}</p>
+                                ))}
+                            </div>
+                            <div className="text-white text-xl font-semibold">
+                              {osAnalyticsArr &&
+                                osAnalyticsArr.map((data) => (
+                                  <p key={data.id}>{data.visitor}</p>
+                                ))}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 3rd row 2nd coloumn */}
+
+                  <div>
+                    <div>
+                      <div className=" rounded-lg border border-gray-700 overflow-hidden">
+                        {/* Header */}
+                        <div className=" flex items-center justify-between p-4 border-b border-gray-700">
+                          <div className="flex space-x-1">Location</div>
+                          <div className="text-gray-400 text-sm font-medium">
+                            VISITORS
+                          </div>
+                        </div>
+
+                        {/* Content Area */}
+                        <div className="p-6 ">
+                          <div className="bg-gray-900 flex items-center justify-between mb-6 p-2 rounded-md">
+                            <div className="text-gray-400 text-sm grid grid-cols-1 gap-2">
+                              {locationArr &&
+                                locationArr.map((data) => (
+                                  <p key={data.id}>{data.country}</p>
+                                ))}
+                            </div>
+                            <div className="text-white text-xl font-semibold">
+                              {locationArr &&
+                                locationArr.map((data) => (
+                                  <p key={data.id}>{data.visitor}</p>
+                                ))}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </TabsContent>
               <TabsContent value="custom Event">

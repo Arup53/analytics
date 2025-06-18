@@ -20,6 +20,7 @@ export async function GET(req: Request) {
       page_views: true,
       device_analytics: true,
       OsAnalyticsInfo: true,
+      Location: true,
     },
   });
 
