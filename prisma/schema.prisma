@@ -30,6 +30,7 @@ model User {
 
 model Websites {
   id               Int               @id @default(autoincrement())
+  project_name     String?
   website_name     String            @unique
   userId           String?
   visits           Visits[]

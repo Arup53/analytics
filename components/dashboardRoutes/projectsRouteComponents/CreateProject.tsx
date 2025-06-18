@@ -16,6 +16,7 @@ import { useState } from "react";
 
 const CreateProject = ({ handleAddWebsite }) => {
   const [open, setOpen] = useState(false);
+  const [name, setName] = useState("");
   const [project, setProject] = useState("");
   const { data: session } = useSession();
   const [error, setError] = useState("");
@@ -32,6 +33,7 @@ const CreateProject = ({ handleAddWebsite }) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          project_name: name,
           website_name: project,
           userId: session?.user.id,
         }),
@@ -94,6 +96,16 @@ const CreateProject = ({ handleAddWebsite }) => {
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4">
+            <div className="grid gap-3">
+              <Label htmlFor="name">Project Name</Label>
+              <Input
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value.trim().toLowerCase())}
+                className="border-gray-600"
+              />
+              {error && <p className="text-red-500 text-sm">{error}</p>}
+            </div>
             <div className="grid gap-3">
               <Label htmlFor="domain">Domain Name</Label>
               <Input
