@@ -23,6 +23,7 @@ const Page = () => {
   const [totalVisits, setTotalVisits] = useState([]);
   const [visits, setVisits] = useState([]);
   const [deviceCountArr, setDeviceCountArr] = useState([]);
+  const [osAnalyticsArr, setOsAnalyticsArr] = useState([]);
 
   const [scriptHtml, setScriptHtml] = useState<string | null>(null);
   const [reactScriptHtml, setReactScriptHtml] = useState<string | null>(null);
@@ -38,11 +39,11 @@ const Page = () => {
     );
 
     const data = await res.json();
-
+    console.log(data);
     setLoading(false);
     const { page_views, visits, device_analytics, OsAnalyticsInfo } =
       data || [];
-    console.log(device_analytics);
+    console.log(OsAnalyticsInfo);
     setDeviceCountArr(device_analytics);
     setPageviews(page_views);
     setTotalVisits(visits.length);
@@ -252,6 +253,8 @@ const Page = () => {
                       </div>
                     </div>
                   </div>
+
+                  {/* 3rd row */}
                 </div>
               </TabsContent>
               <TabsContent value="custom Event">

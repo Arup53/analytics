@@ -36,9 +36,9 @@ model Websites {
   page_views       PageViews[]
   device_analytics DeviceAnalytics[]
   createdAt        DateTime          @default(now())
-  OsAnalyticsInfo  OsAnalyticsInfo?
+  OsAnalyticsInfo  OsAnalyticsInfo[]
   user             User?             @relation(fields: [userId], references: [id])
-  Location         Location?
+  Location         Location[]
 }
 
 model Visits {

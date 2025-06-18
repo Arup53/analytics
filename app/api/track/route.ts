@@ -199,6 +199,7 @@ export async function POST(req: Request) {
         create: {
           website_name: domain,
           deviceType: deviceType,
+          visitor: 1,
         },
       });
 
@@ -211,6 +212,7 @@ export async function POST(req: Request) {
         create: {
           website_name: domain,
           os: osInfo.name,
+          visitor: 1,
         },
       });
 
@@ -223,6 +225,7 @@ export async function POST(req: Request) {
         create: {
           website_name: domain,
           country: countryName,
+          visitor: 1,
         },
       });
 
